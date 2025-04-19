@@ -7,15 +7,26 @@
 
 import UIKit
 
-final class StartViewController: UIViewController {
+class StartViewController: UIViewController {
+
+    // MARK: - View
+    private let startView = StartView()
+
+    override func loadView() {
+        self.view = startView
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
-        view.backgroundColor = .blue
+        setupActions()
     }
 
+    private func setupActions() {
+        startView.startButton.addTarget(self, action: #selector(didTapStartButton), for: .touchUpInside)
+    }
 
-
+    // MARK: - Action
+    @objc private func didTapStartButton() {
+        print("시작하기 버튼이 눌렸습니다!")
+    }
 }
-
