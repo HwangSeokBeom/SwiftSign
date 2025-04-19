@@ -16,6 +16,7 @@ final class SignUpView: UIView {
         let tf = UITextField()
         tf.placeholder = "아이디"
         tf.borderStyle = .roundedRect
+        tf.autocapitalizationType = .none
         return tf
     }()
 
@@ -24,6 +25,7 @@ final class SignUpView: UIView {
         tf.placeholder = "비밀번호"
         tf.isSecureTextEntry = true
         tf.borderStyle = .roundedRect
+        tf.autocapitalizationType = .none
         return tf
     }()
 
@@ -32,6 +34,7 @@ final class SignUpView: UIView {
         tf.placeholder = "비밀번호 확인"
         tf.isSecureTextEntry = true
         tf.borderStyle = .roundedRect
+        tf.autocapitalizationType = .none
         return tf
     }()
 
@@ -39,6 +42,7 @@ final class SignUpView: UIView {
         let tf = UITextField()
         tf.placeholder = "닉네임"
         tf.borderStyle = .roundedRect
+        tf.autocapitalizationType = .none
         return tf
     }()
 

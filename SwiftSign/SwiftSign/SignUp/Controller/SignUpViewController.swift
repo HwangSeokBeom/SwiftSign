@@ -13,13 +13,15 @@ final class SignUpViewController: UIViewController {
     private let signUpModel = SignUpModel()
 
     override func loadView() {
-        self.view = signUpView
+        view = signUpView
     }
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.title = "회원가입"
+        title = "회원가입"
         setupActions()
+        setupTextFieldTargets()
+        updateButtonState()
     }
 
     private func setupActions() {
@@ -38,10 +40,12 @@ final class SignUpViewController: UIViewController {
         case .success:
             signUpModel.signUp(data: data) { [weak self] isSuccess in
                 guard let self = self else { return }
-                if isSuccess {
-                    self.showAlert(message: "회원가입 성공!")
-                } else {
-                    self.showAlert(message: "회원가입 실패. 다시 시도해주세요.")
+                DispatchQueue.main.async {
+                    if isSuccess {
+                        self.showAlert(message: "회원가입 성공!")
+                    } else {
+                        self.showAlert(message: "이미 사용 중인 이메일입니다.")
+                    }
                 }
             }
 
@@ -54,5 +58,21 @@ final class SignUpViewController: UIViewController {
         let alert = UIAlertController(title: "알림", message: message, preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "확인", style: .default))
         present(alert, animated: true)
+    }
+
+    private func setupTextFieldTargets() {
+        [signUpView.idTextField, signUpView.passwordTextField,
+         signUpView.passwordConfirmTextField, signUpView.nicknameTextField]
+            .forEach { $0.addTarget(self, action: #selector(updateButtonState), for: .editingChanged) }
+    }
+
+    @objc private func updateButtonState() {
+        let isIdValid = !(signUpView.idTextField.text ?? "").isEmpty
+        let isPasswordValid = !(signUpView.passwordTextField.text ?? "").isEmpty
+        let isConfirmValid = signUpView.passwordTextField.text == signUpView.passwordConfirmTextField.text
+        let isNicknameValid = !(signUpView.nicknameTextField.text ?? "").isEmpty
+
+        signUpView.signUpButton.isEnabled = isIdValid && isPasswordValid && isConfirmValid && isNicknameValid
+        signUpView.signUpButton.alpha = signUpView.signUpButton.isEnabled ? 1.0 : 0.5
     }
 }
