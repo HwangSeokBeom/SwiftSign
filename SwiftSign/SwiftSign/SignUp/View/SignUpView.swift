@@ -8,15 +8,50 @@
 import UIKit
 import SnapKit
 
-class SignUpView: UIView {
+final class SignUpView: UIView {
 
-    let titleLabel: UILabel = {
-        let label = UILabel()
-        label.text = "회원가입 화면"
-        label.font = .systemFont(ofSize: 24, weight: .bold)
-        label.textColor = .black
-        return label
+    // MARK: - UI Components
+
+    let idTextField: UITextField = {
+        let tf = UITextField()
+        tf.placeholder = "아이디"
+        tf.borderStyle = .roundedRect
+        return tf
     }()
+
+    let passwordTextField: UITextField = {
+        let tf = UITextField()
+        tf.placeholder = "비밀번호"
+        tf.isSecureTextEntry = true
+        tf.borderStyle = .roundedRect
+        return tf
+    }()
+
+    let passwordConfirmTextField: UITextField = {
+        let tf = UITextField()
+        tf.placeholder = "비밀번호 확인"
+        tf.isSecureTextEntry = true
+        tf.borderStyle = .roundedRect
+        return tf
+    }()
+
+    let nicknameTextField: UITextField = {
+        let tf = UITextField()
+        tf.placeholder = "닉네임"
+        tf.borderStyle = .roundedRect
+        return tf
+    }()
+
+    let signUpButton: UIButton = {
+        let btn = UIButton(type: .system)
+        btn.setTitle("회원가입", for: .normal)
+        btn.setTitleColor(.white, for: .normal)
+        btn.backgroundColor = .systemGreen
+        btn.layer.cornerRadius = 8
+        return btn
+    }()
+
+    // MARK: - Init
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -28,11 +63,29 @@ class SignUpView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
 
-    private func setupLayout() {
-        addSubview(titleLabel)
+    // MARK: - Layout
 
-        titleLabel.snp.makeConstraints { make in
-            make.center.equalToSuperview()
+    private func setupLayout() {
+        let stack = UIStackView(arrangedSubviews: [
+            idTextField,
+            passwordTextField,
+            passwordConfirmTextField,
+            nicknameTextField,
+            signUpButton
+        ])
+        stack.axis = .vertical
+        stack.spacing = 16
+        stack.distribution = .fillEqually
+
+        addSubview(stack)
+
+        stack.snp.makeConstraints { make in
+            make.centerY.equalToSuperview()
+            make.left.right.equalToSuperview().inset(40)
+        }
+
+        signUpButton.snp.makeConstraints { make in
+            make.height.equalTo(50)
         }
     }
 }

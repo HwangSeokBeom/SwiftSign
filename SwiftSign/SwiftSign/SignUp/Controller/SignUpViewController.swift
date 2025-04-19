@@ -7,9 +7,10 @@
 
 import UIKit
 
-class SignUpViewController: UIViewController {
+final class SignUpViewController: UIViewController {
 
     private let signUpView = SignUpView()
+    private let signUpModel = SignUpModel()
 
     override func loadView() {
         self.view = signUpView
@@ -18,5 +19,40 @@ class SignUpViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.title = "회원가입"
+        setupActions()
+    }
+
+    private func setupActions() {
+        signUpView.signUpButton.addTarget(self, action: #selector(didTapSignUp), for: .touchUpInside)
+    }
+
+    @objc private func didTapSignUp() {
+        let data = SignUpData(
+            id: signUpView.idTextField.text ?? "",
+            password: signUpView.passwordTextField.text ?? "",
+            passwordConfirm: signUpView.passwordConfirmTextField.text ?? "",
+            nickname: signUpView.nicknameTextField.text ?? ""
+        )
+
+        switch signUpModel.validate(data: data) {
+        case .success:
+            signUpModel.signUp(data: data) { [weak self] isSuccess in
+                guard let self = self else { return }
+                if isSuccess {
+                    self.showAlert(message: "회원가입 성공!")
+                } else {
+                    self.showAlert(message: "회원가입 실패. 다시 시도해주세요.")
+                }
+            }
+
+        case .failure(let reason):
+            showAlert(message: reason)
+        }
+    }
+
+    private func showAlert(message: String) {
+        let alert = UIAlertController(title: "알림", message: message, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "확인", style: .default))
+        present(alert, animated: true)
     }
 }
