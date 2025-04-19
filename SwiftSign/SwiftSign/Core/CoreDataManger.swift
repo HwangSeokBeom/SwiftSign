@@ -48,6 +48,19 @@ final class CoreDataManager {
             return false
         }
     }
+    
+    func deleteUser(email: String) {
+        let request: NSFetchRequest<CoreDataUser> = CoreDataUser.fetchRequest()
+        request.predicate = NSPredicate(format: "email == %@", email)
+
+        do {
+            let users = try context.fetch(request)
+            users.forEach { context.delete($0) }
+            try context.save()
+        } catch {
+            print("회원 탈퇴 실패: \(error)")
+        }
+    }
 
     // 모든 사용자 가져오기 (디버그용)
     func fetchAllUsers() -> [CoreDataUser] {

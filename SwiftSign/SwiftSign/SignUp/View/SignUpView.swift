@@ -11,7 +11,6 @@ import SnapKit
 final class SignUpView: UIView {
 
     // MARK: - UI Components
-
     let idTextField: UITextField = {
         let tf = UITextField()
         tf.placeholder = "아이디"
@@ -56,7 +55,6 @@ final class SignUpView: UIView {
     }()
 
     // MARK: - Init
-
     override init(frame: CGRect) {
         super.init(frame: frame)
         backgroundColor = .white
@@ -68,7 +66,6 @@ final class SignUpView: UIView {
     }
 
     // MARK: - Layout
-
     private func setupLayout() {
         let stack = UIStackView(arrangedSubviews: [
             idTextField,
