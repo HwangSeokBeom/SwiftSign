@@ -8,25 +8,26 @@
 import UIKit
 
 class StartViewController: UIViewController {
-
+    
     // MARK: - View
     private let startView = StartView()
-
+    
     override func loadView() {
         self.view = startView
     }
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setupActions()
     }
-
+    
     private func setupActions() {
         startView.startButton.addTarget(self, action: #selector(didTapStartButton), for: .touchUpInside)
     }
-
+    
     // MARK: - Action
     @objc private func didTapStartButton() {
-        print("시작하기 버튼이 눌렸습니다!")
+        let signUpVC = SignUpViewController()
+        self.navigationController?.pushViewController(signUpVC, animated: true)
     }
 }
