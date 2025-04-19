@@ -61,6 +61,19 @@ final class CoreDataManager {
             print("회원 탈퇴 실패: \(error)")
         }
     }
+    
+    func fetchUser(email: String) -> CoreDataUser? {
+        let request: NSFetchRequest<CoreDataUser> = CoreDataUser.fetchRequest()
+        request.predicate = NSPredicate(format: "email == %@", email)
+        request.fetchLimit = 1
+
+        do {
+            return try context.fetch(request).first
+        } catch {
+            print("유저 조회 실패: \(error)")
+            return nil
+        }
+    }
 
     // 모든 사용자 가져오기 (디버그용)
     func fetchAllUsers() -> [CoreDataUser] {

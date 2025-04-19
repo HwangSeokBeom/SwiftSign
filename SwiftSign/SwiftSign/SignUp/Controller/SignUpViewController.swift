@@ -42,9 +42,19 @@ final class SignUpViewController: UIViewController {
                 guard let self = self else { return }
                 DispatchQueue.main.async {
                     if isSuccess {
-                        let alert = UIAlertController(title: "회원가입 성공", message: "\(data.nickname)님 가입을 환영합니다!", preferredStyle: .alert)
+                        // 로그인 상태 저장
+                        UserDefaultsManager.shared.setLoggedIn(email: data.id.lowercased())
+
+                        let alert = UIAlertController(
+                            title: "회원가입 성공",
+                            message: "\(data.nickname)님 가입을 환영합니다!",
+                            preferredStyle: .alert
+                        )
                         alert.addAction(UIAlertAction(title: "확인", style: .default) { _ in
-                            let loginVC = LoginSuccessViewController(nickname: data.nickname, userEmail: data.id.lowercased())
+                            let loginVC = LoginSuccessViewController(
+                                nickname: data.nickname,
+                                userEmail: data.id.lowercased()
+                            )
                             self.navigationController?.pushViewController(loginVC, animated: true)
                         })
                         self.present(alert, animated: true)

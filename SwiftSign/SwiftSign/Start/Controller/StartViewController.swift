@@ -28,8 +28,19 @@ class StartViewController: UIViewController {
     }
     
     @objc private func didTapStartButton() {
-        let signUpVC = SignUpViewController()
-        self.navigationController?.pushViewController(signUpVC, animated: true)
+        if UserDefaultsManager.shared.isLoggedIn(),
+           let email = UserDefaultsManager.shared.getLoggedInEmail(),
+           let user = CoreDataManager.shared.fetchUser(email: email) {
+            
+            let loginVC = LoginSuccessViewController(
+                nickname: user.nickname ?? "회원",
+                userEmail: email
+            )
+            self.navigationController?.pushViewController(loginVC, animated: true)
+        } else {
+            let signUpVC = SignUpViewController()
+            self.navigationController?.pushViewController(signUpVC, animated: true)
+        }
     }
     
     // 전체 초기화 버튼 동작

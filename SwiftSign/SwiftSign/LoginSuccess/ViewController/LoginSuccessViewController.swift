@@ -51,6 +51,7 @@ final class LoginSuccessViewController: UIViewController {
             message: "정말 로그아웃하시겠어요?",
             confirmTitle: "로그아웃",
             confirmAction: { [weak self] in
+                UserDefaultsManager.shared.logout()
                 self?.goToStartScreen()
             }
         )
@@ -64,6 +65,7 @@ final class LoginSuccessViewController: UIViewController {
             confirmAction: { [weak self] in
                 guard let self = self else { return }
                 CoreDataManager.shared.deleteUser(email: self.userEmail)
+                UserDefaultsManager.shared.logout()
                 self.goToStartScreen()
             }
         )
